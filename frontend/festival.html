@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chennai Festival Calendar</title>
+<style>:root{--sea:#0e4d5c;--dark:#08323c;--gold:#f2b705;--silk:#7a1f4b;--paper:#f5f6f3;--ink:#17252a;--muted:#5a6b70;--line:#d9e0dd}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:Georgia,serif;line-height:1.2}header{background:var(--dark);color:#fff;padding:2.2rem 1rem;border-bottom:6px solid var(--gold)}
+.w{max-width:960px;margin:auto;padding:0 1.1rem}header h1{margin:0 0 .4rem;font-size:clamp(1.8rem,5vw,2.8rem)}header p{margin:0;color:#cfe3e6;max-width:560px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:8px;padding:1.2rem;margin:1.5rem 0;display:flex;gap:1rem;flex-wrap:wrap;align-items:end}
+label{display:block;font-weight:600;margin-bottom:.3rem}select,input{font:inherit;padding:.5rem .7rem;border:1.5px solid var(--sea);border-radius:6px;background:#fff;min-width:170px}
+button{font:inherit;font-weight:700;background:var(--gold);border:0;padding:.65rem 1.4rem;border-radius:6px;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}a{color:var(--sea);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}.card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--sea);border-radius:6px;padding:1rem}
+.card h3{margin:0 0 .2rem;font-size:1.05rem}.m{color:var(--muted);font-size:.88rem}.note{background:#f4e6ee;border-left:4px solid var(--silk);padding:.7rem 1rem;border-radius:4px;margin:1rem 0}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}td,th{padding:.6rem .8rem;border-bottom:1px solid var(--line);text-align:left}td:last-child,th:last-child{text-align:right}
+footer{padding:2rem 1rem;color:var(--muted);font-size:.9rem;text-align:center}</style></head><body>
+<header><div class="w"><h1>Chennai Festival Calendar</h1><p>Choose your travel month to see what is happening in the city.</p></div></header>
+<main class="w">
+<div class="panel"><div><label for="m">Month</label><select id="m"></select></div><button id="go">Show festivals</button></div>
+<div id="out" class="grid" aria-live="polite"></div></main><footer>Many dates follow the lunar calendar and change each year. Confirm before booking.</footer>
+<script>
+const $=i=>document.getElementById(i);const maps=n=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(n+" Chennai");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const M=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const E={0:[["Pongal","Harvest festival with kolam art and sweet pongal."],["Chennai Sangamam","Folk arts festival with street performances."],["Margazhi season","Carnatic music and dance concerts continue into January."]],
+2:[["Panguni Uthiram","Temple processions around Mylapore (March or April)."]],3:[["Puthandu","Tamil New Year in mid-April."],["Panguni Uthiram","Possible in early April."]],
+7:[["Vinayagar Chaturthi","Ganesh festival, in August or September."]],8:[["Vinayagar Chaturthi","Ganesh festival, in August or September."],["Navaratri","Golu displays in homes and temples (September or October)."]],
+9:[["Navaratri","Golu displays in homes and temples."],["Deepavali","Festival of lights (October or November)."]],10:[["Deepavali","Festival of lights, in October or November."]],
+11:[["Margazhi season","Hundreds of Carnatic concerts and Bharatanatyam shows."]]};
+$("m").innerHTML=M.map((m,i)=>`<option value="${i}">${m}</option>`).join("");$("m").value=new Date().getMonth();
+function run(){const e=E[$("m").value]||[];$("out").innerHTML=e.length?e.map(x=>`<article class="card"><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p></article>`).join(""):`<article class="card"><h3>No major festival listed</h3><p>A quieter month, good for fewer crowds. It can be hot, so plan indoor stops like museums at midday.</p></article>`;}
+$("go").onclick=run;run();
+</script></body></html>
